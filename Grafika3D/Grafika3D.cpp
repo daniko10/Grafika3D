@@ -4,95 +4,11 @@
 #include <iostream>
 #include <cmath>
 
-#ifdef _WIN32
-#include <windows.h>
-#include <GL/glu.h>
-#pragma comment(lib, "opengl32.lib")
-#pragma comment(lib, "glu32.lib")
-#else
-#include <GL/glu.h>
-#endif
-
-unsigned int gTexWall = 0, gTexFloor = 0;
-const float PI = 3.14159265f;
-float MOVE_SPEED = 2.5f;
-static const float MOUSE_SENS = 0.0009f;
-static const float THETA_SCOPE = PI / 3;
-static const float THETA_MIN = -THETA_SCOPE, THETA_MAX = THETA_SCOPE;
-static const float MARGIN = 0.2f;
-static const float WALL_HEIGHT = 2.2f;
-static const float BOX_HEIGT = 0.6f;
-
-struct CameraFPS {
-    float x = -2.0f, y = 1.0f, z = -2.0f;
-    float fi = 0.0f;
-    float theta = 0.0f;
-	float fov = 60.0f;
-} Cam;
-
-struct Wall {
-    float x1, x2, z1, z2;
-};
-std::vector<Wall> gWalls;
-
-int gBoxesRemaining = 0;
-struct Box {
-    float x1, x2, y1, y2, z1, z2;
-    bool collected = false;
-};
-std::vector<Box> gBoxes;
-
-void showConsoleStatus() {
-    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    COORD pos = { 0, 0 };
-    SetConsoleCursorPosition(hOut, pos);
-
-    std::cout << "========== LABIRYNT 3D ==========\n";
-    std::cout << "Camera: \n";
-    std::cout << "  X: " << Cam.x << "\n";
-    std::cout << "  Y: " << Cam.y << "\n";
-    std::cout << "  Z: " << Cam.z << "\n";
-    std::cout << "(FOV): " << Cam.fov << "\n";
-    std::cout << "Left boxes to find: " << gBoxesRemaining << "\n";
-    std::cout << "----------------------------------\n";
-    std::cout << "Keys:\n";
-    std::cout << "  W/S/A/D - movement\n";
-    std::cout << "  mouse - camera\n";
-    std::cout << "  Ctrl / Spacja - down / up\n";
-    std::cout << "  Q / E - FOV\n";
-	std::cout << "  Shift - sprint\n";
-    std::cout << "  ESC - EXIT\n";
-    std::cout << "==================================\n";
-}
-
-bool checkBoxCollision(float x, float y, float z) {
-    for (auto& b : gBoxes) {
-        if (x > b.x1 - MARGIN && x < b.x2 + MARGIN &&
-            y < b.y2 + MARGIN &&
-            z > b.z1 - MARGIN && z < b.z2 + MARGIN)
-        {
-            if (!b.collected)
-            {
-                b.collected = true;
-                gBoxesRemaining--;
-            }
-            return true;
-        }
-    }
-    return false;
-}
-
-bool collides(float x, float z, float height_max = 2.2) {
-    for (const auto& w : gWalls) {
-        if (x > w.x1 - MARGIN && x < w.x2 + MARGIN &&
-            z > w.z1 - MARGIN && z < w.z2 + MARGIN && Cam.y <= height_max)
-        {
-            return true;
-        }
-    }
-
-	return checkBoxCollision(x, Cam.y, z);
-}
+#include "Camera.hpp"
+#include "Wall.hpp"
+#include "Box.hpp"
+#include "Constants.hpp"
+#include "utils.hpp"
 
 static inline float clampf(float v, float a, float b) { return (v < a ? a : (v > b ? b : v)); }
 
@@ -445,7 +361,7 @@ int main() {
         sf::Mouse::setPosition(center, win);
 
         float dt = dtClock.restart().asSeconds();
-        float v = MOVE_SPEED * dt;
+        float v = Cam.speed * dt;
 
         float fwdx = std::sin(Cam.fi), fwdz = -std::cos(Cam.fi);
         float sidx = std::cos(Cam.fi), sidz = std::sin(Cam.fi);
@@ -471,10 +387,10 @@ int main() {
             if (!collides(newX, newZ)) { Cam.x = newX; Cam.z = newZ; }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) {
-			MOVE_SPEED = 5.0f;
+			Cam.speed = 5.0f;
         }
         else {
-            MOVE_SPEED = 2.5f;
+            Cam.speed = 2.5f;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
             float newY = Cam.y - v;

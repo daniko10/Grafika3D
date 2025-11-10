@@ -123,7 +123,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Box.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Constants.cpp" />
     <ClCompile Include="Grafika3D.cpp" />
+    <ClCompile Include="utils.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -131,6 +136,13 @@
   <ItemGroup>
     <Image Include="..\..\..\..\Desktop\floor.jpg" />
     <Image Include="..\..\..\..\Desktop\wall.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Box.hpp" />
+    <ClInclude Include="Camera.hpp" />
+    <ClInclude Include="Constants.hpp" />
+    <ClInclude Include="utils.hpp" />
+    <ClInclude Include="Wall.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
