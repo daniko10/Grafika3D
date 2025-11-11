@@ -16,24 +16,30 @@
     <Filter Include="Pliki źródłowe\textures">
       <UniqueIdentifier>{0b92e7b4-0e06-4f3e-85fe-b99a9753d4bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki nagłówkowe\include">
+      <UniqueIdentifier>{cdbd4a69-9ac3-443d-8faf-4cb60bdcb395}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\src">
+      <UniqueIdentifier>{41e53798-6898-4c0b-9edd-ea54bad15675}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Wall.cpp">
+      <Filter>Pliki źródłowe\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils.cpp">
+      <Filter>Pliki źródłowe\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Constants.cpp">
+      <Filter>Pliki źródłowe\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>Pliki źródłowe\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Box.cpp">
+      <Filter>Pliki źródłowe\src</Filter>
+    </ClCompile>
     <ClCompile Include="Grafika3D.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="utils.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="Constants.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="Box.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="Wall.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
   </ItemGroup>
@@ -49,20 +55,20 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.hpp">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="include\Box.hpp">
+      <Filter>Pliki nagłówkowe\include</Filter>
     </ClInclude>
-    <ClInclude Include="Wall.hpp">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="include\Camera.hpp">
+      <Filter>Pliki nagłówkowe\include</Filter>
     </ClInclude>
-    <ClInclude Include="Box.hpp">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="include\Constants.hpp">
+      <Filter>Pliki nagłówkowe\include</Filter>
     </ClInclude>
-    <ClInclude Include="Constants.hpp">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="include\utils.hpp">
+      <Filter>Pliki nagłówkowe\include</Filter>
     </ClInclude>
-    <ClInclude Include="utils.hpp">
-      <Filter>Pliki nagłówkowe</Filter>
+    <ClInclude Include="include\Wall.hpp">
+      <Filter>Pliki nagłówkowe\include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
