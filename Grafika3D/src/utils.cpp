@@ -1,11 +1,22 @@
 #include "../include/utils.hpp"
 
 unsigned int gTexWall = 0, gTexFloor = 0;
+std::optional<COLOR> currentBoxModify = std::nullopt;
 
 void showConsoleStatus() {
     HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
     COORD pos = { 0, 0 };
+
     SetConsoleCursorPosition(hOut, pos);
+
+    bool upNow = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
+    bool downNow = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
+    static bool prevUp = false;
+    static bool prevDown = false;
+
+    if ((!upNow && prevUp) || (!downNow && prevDown)) {
+        system("cls");
+    }
 
     std::cout << "========== LABIRYNT 3D ==========\n";
     std::cout << "Camera: \n";
@@ -22,8 +33,33 @@ void showConsoleStatus() {
     std::cout << "  Q / E - FOV\n";
     std::cout << "  Shift - sprint\n";
     std::cout << "  1 / 2 / 3 - modify RED / BLUE / GREEN box\n";
+    std::cout << "  UP / DOWN - increase / decrease shininess of selected box\n";
     std::cout << "  ESC - EXIT\n";
-    std::cout << "==================================\n";
+
+    if (currentBoxModify.has_value())
+    {
+        for (auto& b : gBoxes) {
+            if (b.color == currentBoxModify.value()) {
+                if (upNow)
+                {
+                    std::cout << b.color << " shininess: " << b.shininess[0] << "\n";
+                    b.shininess[0] += DELTA_SHININESS;
+                    if (b.shininess[0] > 128.0f) b.shininess[0] = 128.0f;
+                }
+                if (downNow)
+                {
+                    std::cout << b.color << " shininess: " << b.shininess[0] << "\n";
+                    b.shininess[0] -= DELTA_SHININESS;
+                    if (b.shininess[0] < 0.0f) b.shininess[0] = 0.0f;
+                }
+            }
+        }
+    }
+
+    prevUp = upNow;
+    prevDown = downNow;
+
+    std::cout << "\n==================================\n";
 }
 
 bool checkBoxCollision(float x, float y, float z) {
@@ -234,24 +270,4 @@ void initObstacles() {
     gBoxes.push_back({ 3.0f - 0.3f, 3.0f + 0.3f, 0.0f, 0.6f, 0.1f - 0.3f, 0.1f + 0.3f, GREEN, GREEN_ambient, GREEN_diffuse, GREEN_specular, GREEN_shininess });
 
     gBoxesRemaining = gBoxes.size();
-}
-
-void modifyBoxShininess(COLOR currentBoxModify)
-{
-    for (auto& b : gBoxes) {
-        if (b.color == currentBoxModify) {
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-            {
-                std::cout << "currentBox shininess: " << b.shininess[0] << "\n";
-                b.shininess[0] += DELTA_SHININESS;
-                if (b.shininess[0] > 128.0f) b.shininess[0] = 128.0f;
-            }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-            {
-                std::cout << "currentBox shininess: " << b.shininess[0] << "\n";
-                b.shininess[0] -= DELTA_SHININESS;
-                if (b.shininess[0] < 0.0f) b.shininess[0] = 0.0f;
-            }
-        }
-	}
 }

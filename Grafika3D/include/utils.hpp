@@ -6,6 +6,7 @@
 #include <cmath>
 
 #include <iostream> 
+#include <optional>
 #include "Camera.hpp"
 #include "Wall.hpp"
 #include "Box.hpp"
@@ -21,8 +22,8 @@
 #endif
 
 extern unsigned int gTexWall, gTexFloor;
+extern std::optional<COLOR> currentBoxModify;
 
-void modifyBoxShininess(enum COLOR);
 void showConsoleStatus();
 bool checkBoxCollision(float , float , float );
 bool collides(float , float , float = 2.2);

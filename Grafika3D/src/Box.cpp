@@ -18,3 +18,18 @@ void Box::setupMaterial() const {
 	glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
 	glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
 }
+
+std::ostream& operator<<(std::ostream& os, const COLOR& color) {
+	switch (color) {
+		case RED:
+			os << "RED";
+			break;
+		case GREEN:
+			os << "GREEN";
+			break;
+		case BLUE:
+			os << "BLUE";
+			break;
+	}
+	return os;
+}

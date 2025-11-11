@@ -37,7 +37,6 @@ int main() {
     );
     sf::Mouse::setPosition(center, window);
 
-	COLOR currentBoxModify = RED;
     sf::Clock deltaClock;
     bool running = true;
 
@@ -111,16 +110,15 @@ int main() {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) Cam.fov += v;
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
-			currentBoxModify = RED;
+            currentBoxModify.emplace(RED);
 		}
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
-			currentBoxModify = BLUE;
+			currentBoxModify.emplace(BLUE);
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
-			currentBoxModify = GREEN;
+			currentBoxModify.emplace(GREEN);
 		}
-        
-        modifyBoxShininess(currentBoxModify);
+
         showConsoleStatus();
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
