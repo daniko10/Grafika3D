@@ -21,6 +21,7 @@ void showConsoleStatus() {
     std::cout << "  Ctrl / Spacja - down / up\n";
     std::cout << "  Q / E - FOV\n";
     std::cout << "  Shift - sprint\n";
+    std::cout << "  1 / 2 / 3 - modify RED / BLUE / GREEN box\n";
     std::cout << "  ESC - EXIT\n";
     std::cout << "==================================\n";
 }
@@ -150,46 +151,9 @@ void drawFloor(int half) {
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void setupMaterial_Red() {
-    GLfloat ambient[] = { 0.3f, 0.1f, 0.1f, 1.0f };
-    GLfloat diffuse[] = { 0.8f, 0.3f, 0.3f, 1.0f };
-    GLfloat specular[] = { 0.8f, 0.8f, 0.8f, 1.0f };
-    GLfloat shininess[] = { 50.0f };
-
-    glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
-}
-
-void setupMaterial_Blue() {
-    GLfloat ambient[] = { 0.1f, 0.1f, 0.3f, 1.0f };
-    GLfloat diffuse[] = { 0.2f, 0.4f, 0.8f, 1.0f };
-    GLfloat specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-    GLfloat shininess[] = { 90.0f };
-
-    glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
-}
-
-void setupMaterial_Green() {
-    GLfloat ambient[] = { 0.1f, 0.3f, 0.1f, 1.0f };
-    GLfloat diffuse[] = { 0.3f, 0.7f, 0.3f, 1.0f };
-    GLfloat specular[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-    GLfloat shininess[] = { 0.0f };
-
-    glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
-    glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
-}
-
-void drawUnitCubeLit(float a, void(*f)()) {
+void drawUnitCubeLit(float a) {
     glBegin(GL_QUADS);
 
-    f();
     glNormal3f(0, 0, 1);  glVertex3f(-a, -a, +a); glVertex3f(+a, -a, +a); glVertex3f(+a, +a, +a); glVertex3f(-a, +a, +a);
     glNormal3f(0, 0, -1); glVertex3f(-a, -a, -a); glVertex3f(-a, +a, -a); glVertex3f(+a, +a, -a); glVertex3f(+a, -a, -a);
     glNormal3f(1, 0, 0);  glVertex3f(+a, -a, -a); glVertex3f(+a, +a, -a); glVertex3f(+a, +a, +a); glVertex3f(+a, -a, +a);
@@ -250,9 +214,24 @@ void initObstacles() {
     gWalls.push_back({ 2, 4, 3.5, 3.5 - T });
     gWalls.push_back({ 2, 2 + T, 3.5, 5 });
 
-    gBoxes.push_back({ -2.8f - 0.3f, -2.8f + 0.3f, 0.0f, 0.6f, 2.2f - 0.3f, 2.2f + 0.3f, RED});
-    gBoxes.push_back({ 3.2f - 0.3f, 3.2f + 0.3f, 0.0f, 0.6f, 4.4f - 0.3f, 4.4f + 0.3f, BLUE});
-    gBoxes.push_back({ 3.0f - 0.3f, 3.0f + 0.3f, 0.0f, 0.6f, 0.1f - 0.3f, 0.1f + 0.3f, GREEN });
+    GLfloat RED_ambient[] = { 0.3f, 0.1f, 0.1f, 1.0f };
+    GLfloat RED_diffuse[] = { 0.8f, 0.3f, 0.3f, 1.0f };
+    GLfloat RED_specular[] = { 0.8f, 0.8f, 0.8f, 1.0f };
+    GLfloat RED_shininess[] = { 50.0f };
+
+    GLfloat BLUE_ambient[] = { 0.1f, 0.1f, 0.3f, 1.0f };
+    GLfloat BLUE_diffuse[] = { 0.2f, 0.4f, 0.8f, 1.0f };
+    GLfloat BLUE_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    GLfloat BLUE_shininess[] = { 90.0f };
+
+    GLfloat GREEN_ambient[] = { 0.1f, 0.3f, 0.1f, 1.0f };
+    GLfloat GREEN_diffuse[] = { 0.3f, 0.7f, 0.3f, 1.0f };
+    GLfloat GREEN_specular[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    GLfloat GREEN_shininess[] = { 0.0f };
+
+    gBoxes.push_back({ -2.8f - 0.3f, -2.8f + 0.3f, 0.0f, 0.6f, 2.2f - 0.3f, 2.2f + 0.3f, RED, RED_ambient, RED_diffuse, RED_specular, RED_shininess });
+    gBoxes.push_back({ 3.2f - 0.3f, 3.2f + 0.3f, 0.0f, 0.6f, 4.4f - 0.3f, 4.4f + 0.3f, BLUE, BLUE_ambient, BLUE_diffuse, BLUE_specular, BLUE_shininess });
+    gBoxes.push_back({ 3.0f - 0.3f, 3.0f + 0.3f, 0.0f, 0.6f, 0.1f - 0.3f, 0.1f + 0.3f, GREEN, GREEN_ambient, GREEN_diffuse, GREEN_specular, GREEN_shininess });
 
     gBoxesRemaining = gBoxes.size();
 }

@@ -7,17 +7,14 @@ int gBoxesRemaining;
 void Box::drawBox() const {
 	glPushMatrix();
 	glTranslatef((x1 + x2) / 2.0f, (y1 + y2) / 2.0f, (z1 + z2) / 2.0f);
-	switch (color) {
-		case RED:
-			setupMaterial_Red();
-			break;
-		case BLUE:
-			setupMaterial_Blue();
-			break;
-		case GREEN:
-			setupMaterial_Green();
-			break;
-		}
-	drawUnitCubeLit(BOX_HEIGT / 2, []() {});
+	setupMaterial();
+	drawUnitCubeLit(BOX_HEIGT / 2);
 	glPopMatrix();
+}
+
+void Box::setupMaterial() const {
+	glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
+	glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
 }
