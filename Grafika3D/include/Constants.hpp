@@ -9,3 +9,4 @@ extern const float MARGIN;
 extern const float WALL_HEIGHT;
 extern const float BOX_HEIGT;
 extern const float T;
+extern const float DELTA_SHININESS;

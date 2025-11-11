@@ -22,6 +22,7 @@
 
 extern unsigned int gTexWall, gTexFloor;
 
+void modifyBoxShininess(enum COLOR);
 void showConsoleStatus();
 bool checkBoxCollision(float , float , float );
 bool collides(float , float , float = 2.2);

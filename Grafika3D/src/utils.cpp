@@ -214,10 +214,10 @@ void initObstacles() {
     gWalls.push_back({ 2, 4, 3.5, 3.5 - T });
     gWalls.push_back({ 2, 2 + T, 3.5, 5 });
 
-    GLfloat RED_ambient[] = { 0.3f, 0.1f, 0.1f, 1.0f };
-    GLfloat RED_diffuse[] = { 0.8f, 0.3f, 0.3f, 1.0f };
-    GLfloat RED_specular[] = { 0.8f, 0.8f, 0.8f, 1.0f };
-    GLfloat RED_shininess[] = { 50.0f };
+    GLfloat RED_ambient[] = { 0.3f, 0.1f, 0.1f, 1.0f }; // widoczny nawet w cieniu
+    GLfloat RED_diffuse[] = { 0.8f, 0.3f, 0.3f, 1.0f }; // g³ówny kolor obiektu
+	GLfloat RED_specular[] = { 0.8f, 0.8f, 0.8f, 1.0f }; // odbicia œwiat³a
+	GLfloat RED_shininess[] = { 50.0f }; // po³ysk (0 - matowy, 128 - bardzo b³yszcz¹cy)
 
     GLfloat BLUE_ambient[] = { 0.1f, 0.1f, 0.3f, 1.0f };
     GLfloat BLUE_diffuse[] = { 0.2f, 0.4f, 0.8f, 1.0f };
@@ -234,4 +234,24 @@ void initObstacles() {
     gBoxes.push_back({ 3.0f - 0.3f, 3.0f + 0.3f, 0.0f, 0.6f, 0.1f - 0.3f, 0.1f + 0.3f, GREEN, GREEN_ambient, GREEN_diffuse, GREEN_specular, GREEN_shininess });
 
     gBoxesRemaining = gBoxes.size();
+}
+
+void modifyBoxShininess(COLOR currentBoxModify)
+{
+    for (auto& b : gBoxes) {
+        if (b.color == currentBoxModify) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+            {
+                std::cout << "currentBox shininess: " << b.shininess[0] << "\n";
+                b.shininess[0] += DELTA_SHININESS;
+                if (b.shininess[0] > 128.0f) b.shininess[0] = 128.0f;
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+            {
+                std::cout << "currentBox shininess: " << b.shininess[0] << "\n";
+                b.shininess[0] -= DELTA_SHININESS;
+                if (b.shininess[0] < 0.0f) b.shininess[0] = 0.0f;
+            }
+        }
+	}
 }

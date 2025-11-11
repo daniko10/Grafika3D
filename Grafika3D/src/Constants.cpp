@@ -8,3 +8,4 @@ const float MARGIN = 0.2f;
 const float WALL_HEIGHT = 2.2f;
 const float BOX_HEIGT = 0.6f;
 const float T = 0.02f;
+const float DELTA_SHININESS = 0.1f;
