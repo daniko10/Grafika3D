@@ -98,12 +98,20 @@ void reshapeScreen(sf::Vector2u size) {
 }
 
 void setupLight() {
-    const GLfloat pos[] = { Cam.x, Cam.y, Cam.z, 1.0f };
+    float fwdx = std::sin(Cam.fi);
+    float fwdz = -std::cos(Cam.fi);
+
+    const GLfloat pos[] = {
+        Cam.x - fwdx * 0.5f,
+        Cam.y,
+        Cam.z - fwdz * 0.5f,
+        1.0f
+    };
     const GLfloat amb[] = { 0.35f, 0.35f, 0.35f, 1.0f }; // ogólne oœwietlenie
     const GLfloat diff[] = { 1.3f, 1.3f, 1.3f, 1.0f }; // zale¿ne od k¹ta padania (bokiem - przgasa, z przodu - jasne)
     const GLfloat spec[] = { 1.0f, 1.0f, 1.0f, 1.0f }; // odbicia
 
-    glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.2f);
+    glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.3f);
     glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.45f);
     glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.3f);
 
@@ -196,10 +204,9 @@ void drawLabyrinth() {
     for (const Wall& w : gWalls) {
         w.drawWall();
     }
-
-    glPushMatrix(); glTranslatef(-2.8f, 0.3f, +2.2f); drawUnitCubeLit(0.3f, setupMaterial_Red);   glPopMatrix();
-    glPushMatrix(); glTranslatef(+3.2f, 0.3f, +4.4f); drawUnitCubeLit(0.3f, setupMaterial_Blue);  glPopMatrix();
-    glPushMatrix(); glTranslatef(+3.0f, 0.3f, 0.1f); drawUnitCubeLit(0.3f, setupMaterial_Green); glPopMatrix();
+    for (const Box& b : gBoxes) {
+		b.drawBox();
+	}
 }
 
 void initObstacles() {
@@ -243,9 +250,9 @@ void initObstacles() {
     gWalls.push_back({ 2, 4, 3.5, 3.5 - T });
     gWalls.push_back({ 2, 2 + T, 3.5, 5 });
 
-    gBoxes.push_back({ -2.8f - 0.3f, -2.8f + 0.3f, 0.0f, 0.6f, 2.2f - 0.3f, 2.2f + 0.3f });
-    gBoxes.push_back({ 3.2f - 0.3f, 3.2f + 0.3f, 0.0f, 0.6f, 4.4f - 0.3f, 4.4f + 0.3f });
-    gBoxes.push_back({ 3.0f - 0.3f, 3.0f + 0.3f, 0.0f, 0.6f, 0.1f - 0.3f, 0.1f + 0.3f });
+    gBoxes.push_back({ -2.8f - 0.3f, -2.8f + 0.3f, 0.0f, 0.6f, 2.2f - 0.3f, 2.2f + 0.3f, RED});
+    gBoxes.push_back({ 3.2f - 0.3f, 3.2f + 0.3f, 0.0f, 0.6f, 4.4f - 0.3f, 4.4f + 0.3f, BLUE});
+    gBoxes.push_back({ 3.0f - 0.3f, 3.0f + 0.3f, 0.0f, 0.6f, 0.1f - 0.3f, 0.1f + 0.3f, GREEN });
 
     gBoxesRemaining = gBoxes.size();
 }
