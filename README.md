@@ -106,13 +106,6 @@ Zawiera globalne stałe projektu, takie jak:
 
 ---
 
-## Instrukcja uruchomienia
-```bash
-git clone https://github.com/daniko10/Grafika3D.git
-cd Grafika3D 
-
----
-
 ## Biblioteki
 - SFML/Window.hpp – tworzenie okna, obsługa zdarzeń, myszki i klawiatury
 - SFML/Graphics.hpp – ładowanie tekstur i obrazów
@@ -128,6 +121,18 @@ cd Grafika3D
 - Zainstalowana biblioteka **SFML (>= 2.5)**
 - Obsługa **OpenGL** oraz **GLU**
 - System: Windows / Linux
+
+---
+
+## Instrukcja uruchomienia
+
+- git clone https://github.com/daniko10/Grafika3D.git
+- Otwórz Visual Studio
+- Plik -> Otwórz -> Projekt lub rozwiązanie i wskaż na Grafika3D.sln
+- Pobierz SFML oraz ustaw standard C++ na >= 17
+- Start Debugging
+
+
 
 
 
